@@ -313,7 +313,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1847735536}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -396,8 +396,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1847735536}
-  m_RootOrder: 2
+  m_Father: {fileID: 2075481293}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1659166028
 GameObject:
@@ -492,7 +492,6 @@ Transform:
   m_Children:
   - {fileID: 2013084454}
   - {fileID: 106831890}
-  - {fileID: 963194228}
   - {fileID: 705507995}
   - {fileID: 2075481293}
   m_Father: {fileID: 164422734}
@@ -509,7 +508,7 @@ GameObject:
   - component: {fileID: 2013084454}
   - component: {fileID: 2013084455}
   m_Layer: 0
-  m_Name: PipeCreator
+  m_Name: InfinityPipeCreator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -543,10 +542,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9096c0c158981245a3f9f48cc1077f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficultType: 1
+  xDiffCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.06249282
+      outSlope: 0.06249282
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.43197525
+    - serializedVersion: 3
+      time: 0.499449
+      value: 0.499449
+      inSlope: 3.4911392
+      outSlope: 3.4911392
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.07721927
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.119261816
+      outSlope: 0.119261816
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.37914994
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  seed: 0
+  autoSeed: 1
   createOffset: 3.6
   createThreshold: 40
   hideThreshold: 20
-  deleteThreshold: 20
   container: {fileID: 1659166029}
   target: {fileID: 2075481293}
 --- !u!1 &2022005946
@@ -620,7 +654,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 963194228}
   m_Father: {fileID: 1847735536}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

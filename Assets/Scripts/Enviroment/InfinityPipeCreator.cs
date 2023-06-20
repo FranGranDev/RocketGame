@@ -2,44 +2,91 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Game.Data;
+using System.Linq;
 using Zenject;
+using NaughtyAttributes;
 
 
 namespace Game.Enviroment
 {
     public class InfinityPipeCreator : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private float createOffset;
-        [SerializeField] private float createThreshold;
-        [SerializeField] private float hideThreshold;
-        [SerializeField] private float deleteThreshold;
-        [Header("Components")]
-        [SerializeField] private Transform container;
-        [SerializeField] private Transform target;
+        [Foldout("Difficult Settings"), SerializeField] private DifficultTypes difficultType;
+        [Foldout("Difficult Settings"), SerializeField] private AnimationCurve xDiffCurve;
+        [Foldout("Difficult Settings"), SerializeField] private int seed;
+        [Foldout("Difficult Settings"), SerializeField] private bool autoSeed;
+
+        [Foldout("Create Settings"), SerializeField] private float createOffset;
+        [Foldout("Create Settings"), Space, SerializeField] private float createThreshold;
+        [Foldout("Create Settings"), SerializeField] private float hideThreshold;
+
+        [Foldout("Components"), SerializeField] private Transform container;
+        [Foldout("Components"), SerializeField] private Transform target;
+
 
         [Inject]
         private IFactory<Pipe> pipeFactory;
+        [Inject]
+        private DifficultSettings difficultSettings;
 
+
+        private PipesPool pipesPool;
+        private IDifficult difficult;
         private Dictionary<int, Pipe> pipes = new Dictionary<int, Pipe>();
         private int currantIndex;
+        private int prevIndex = int.MinValue;
 
         private int createOffsetIndex;
         private int hideOffsetIndex;
-        private int deleteOffsetIndex;
+
+        private float CurrantHeight
+        {
+            get
+            {
+                return target.position.y;
+            }
+        }
+        private float NormalizedHeight(int i)
+        {
+            return i * createOffset;
+        }
 
 
-        private void CalculateOffsets()
+        public void Initialize()
         {
             createOffsetIndex = Mathf.RoundToInt(createThreshold / createOffset);
             hideOffsetIndex = Mathf.RoundToInt(hideThreshold / createOffset) + createOffsetIndex;
-            deleteOffsetIndex = Mathf.RoundToInt(deleteThreshold / createOffset) + hideOffsetIndex;
+
+            pipesPool = new PipesPool(pipeFactory, container, hideOffsetIndex * 3);
+
+            if(autoSeed)
+            {
+                seed = Random.Range(0, int.MaxValue);
+            }
+
+            switch(difficultType)
+            {
+                case DifficultTypes.HardRandom:
+                    difficult = new SmartRandomDifficult(difficultSettings, seed);
+                    break;
+                default:
+                    difficult = new RandomDifficult(difficultSettings, seed);
+                    break;
+            }
         }
 
 
         private void UpdatePipes()
         {
-            for(int i = -createOffsetIndex; i < createOffsetIndex; i++)
+            currantIndex = Mathf.RoundToInt(CurrantHeight / createOffset);
+
+            if (currantIndex == prevIndex)
+            {
+                return;
+            }
+            prevIndex = currantIndex;
+
+            for (int i = -createOffsetIndex; i < createOffsetIndex; i++)
             {
                 if (pipes.ContainsKey(currantIndex + i))
                 {
@@ -60,53 +107,70 @@ namespace Game.Enviroment
 
                 HidePipe(currantIndex + i);
             }
-
-            for (int i = -deleteOffsetIndex; i < deleteOffsetIndex; i++)
-            {
-                if (i > -hideOffsetIndex && i < hideOffsetIndex)
-                    continue;
-
-                if (!pipes.ContainsKey(currantIndex + i))
-                    continue;
-
-                DeletePipe(currantIndex + i);
-            }
         }
         private void CreatePipe(int index)
         {
-            Pipe pipe = pipeFactory.Create();
+            pipes.Add(index, pipesPool.Get());
 
-            pipe.Setup(index * createOffset, 0);
-            pipe.transform.parent = container;
-
-            pipes.Add(index, pipe);
+            ShowPipe(index);
         }
         private void HidePipe(int index)
         {
             pipes[index].Hide();
-        }
-        private void ShowPipe(int index)
-        {
-            pipes[index].Show();
-        }
-        private void DeletePipe(int index)
-        {
-            pipes[index].Delete();
 
             pipes.Remove(index);
         }
 
+        private void ShowPipe(int index)
+        {
+            float normalizedHeight = NormalizedHeight(index);
+            float xRatio = xDiffCurve.Evaluate(Mathf.PerlinNoise(-seed, NormalizedHeight(index) * 1337));
+            float difficultResult = difficult.Get(normalizedHeight);
+
+            pipes[index].Show(normalizedHeight, difficultResult, xRatio);            
+        }
+        
 
 
         private void Start()
         {
-            CalculateOffsets();
+            Initialize();
         }
-        private void FixedUpdate()
+        private void Update()
         {
-            currantIndex = Mathf.RoundToInt(target.position.y / createOffset);
-
             UpdatePipes();
+        }
+
+
+        private class PipesPool
+        {
+            public PipesPool(IFactory<Pipe> factory, Transform container, int count)
+            {
+                pipes = new List<Pipe>(count);
+
+                for(int i = 0; i < count; i++)
+                {
+                    Pipe pipe = factory.Create();
+                    pipe.Hide();
+                    pipe.transform.parent = container;
+
+                    pipes.Add(pipe);
+                }
+            }
+
+            private List<Pipe> pipes { get; }       
+            
+            public Pipe Get()
+            {
+                try
+                {
+                    return pipes.First(x => x.Hidden);
+                }
+                catch
+                {
+                    return pipes.First();
+                }
+            }
         }
     }
 }

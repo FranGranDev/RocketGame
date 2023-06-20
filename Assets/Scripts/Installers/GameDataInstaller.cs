@@ -9,11 +9,16 @@ namespace Game.Installers
     public class GameDataInstaller : ScriptableObjectInstaller<GameDataInstaller>
     {
         [SerializeField] private PipeData pipeData;
+        [SerializeField] private DifficultSettings difficultSettings;
 
         public override void InstallBindings()
         {
             Container.Bind<PipeData>()
                 .FromInstance(pipeData)
+                .NonLazy();
+
+            Container.Bind<DifficultSettings>()
+                .FromInstance(difficultSettings)
                 .NonLazy();
         }
     }

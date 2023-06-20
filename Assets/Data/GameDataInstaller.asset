@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GameDataInstaller
   m_EditorClassIdentifier: 
   pipeData: {fileID: 11400000, guid: 78a6c7454b4ad7e4fbcab50a282fcb8f, type: 2}
+  difficultSettings: {fileID: 11400000, guid: 2b5984ea3dcb7df46b07011915db8d17, type: 2}
