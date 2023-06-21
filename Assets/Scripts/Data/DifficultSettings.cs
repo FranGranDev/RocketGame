@@ -14,7 +14,7 @@ namespace Game.Data
         [SerializeField, Range(0, 1)] private float minPipesFrequency;
         [SerializeField, Range(0, 1)] private float maxPipesFrequency;
         [Space]
-        [SerializeField, Range(0, 2)] private float obstacleSizeMultiplier;
+        [SerializeField, Range(0, 3)] private float obstacleSizeMultiplier;
 
         public float GetDifficult(float height)
         {

@@ -161,7 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b138f1951f94b7540912350e86149bc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxOffset: 8
+  maxOffset: 7
   leftObstacle: {fileID: 6387141246659156887}
   rightObstacle: {fileID: 8349538535923382528}
 --- !u!1 &4729426993290753489

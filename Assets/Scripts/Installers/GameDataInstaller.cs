@@ -10,6 +10,8 @@ namespace Game.Installers
     {
         [SerializeField] private PipeData pipeData;
         [SerializeField] private DifficultSettings difficultSettings;
+        [SerializeField] private RocketData rocketSettings;
+
 
         public override void InstallBindings()
         {
@@ -19,6 +21,15 @@ namespace Game.Installers
 
             Container.Bind<DifficultSettings>()
                 .FromInstance(difficultSettings)
+                .NonLazy();
+
+            Container.Bind<float>()
+                .WithId("SizeX")
+                .FromInstance(pipeData.SizeX)
+                .NonLazy();
+
+            Container.Bind<RocketData>()
+                .FromInstance(rocketSettings)
                 .NonLazy();
         }
     }

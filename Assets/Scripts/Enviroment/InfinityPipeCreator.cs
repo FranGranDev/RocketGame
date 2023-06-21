@@ -21,7 +21,6 @@ namespace Game.Enviroment
         [Foldout("Create Settings"), SerializeField] private float hideThreshold;
 
         [Foldout("Components"), SerializeField] private Transform container;
-        [Foldout("Components"), SerializeField] private Transform target;
 
 
         [Inject]
@@ -32,6 +31,9 @@ namespace Game.Enviroment
 
         private PipesPool pipesPool;
         private IDifficult difficult;
+
+        private Transform target;
+
         private Dictionary<int, Pipe> pipes = new Dictionary<int, Pipe>();
         private int currantIndex;
         private int prevIndex = int.MinValue;
@@ -66,13 +68,17 @@ namespace Game.Enviroment
 
             switch(difficultType)
             {
-                case DifficultTypes.HardRandom:
+                case DifficultTypes.SmartRandom:
                     difficult = new SmartRandomDifficult(difficultSettings, seed);
                     break;
                 default:
                     difficult = new RandomDifficult(difficultSettings, seed);
                     break;
             }
+        }
+        public void SetTarget(Transform target)
+        {
+            this.target = target;
         }
 
 
@@ -120,7 +126,6 @@ namespace Game.Enviroment
 
             pipes.Remove(index);
         }
-
         private void ShowPipe(int index)
         {
             float normalizedHeight = NormalizedHeight(index);
@@ -132,12 +137,10 @@ namespace Game.Enviroment
         
 
 
-        private void Start()
-        {
-            Initialize();
-        }
         private void Update()
         {
+            if (!target)
+                return;
             UpdatePipes();
         }
 
@@ -168,7 +171,7 @@ namespace Game.Enviroment
                 }
                 catch
                 {
-                    return pipes.First();
+                    return pipes.First(); // If move infinity fast, that happen :)
                 }
             }
         }

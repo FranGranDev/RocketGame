@@ -58,19 +58,18 @@ namespace Game.Enviroment
 
             float pipesFrequency = Mathf.Lerp(settings.MinPipesFrequency, settings.MaxPipesFrequency, difficult);
 
-            float activateNoise = Mathf.Pow(Mathf.PerlinNoise(-randomize, height * 0.05f), 1.5f);
+            float activateNoise = Mathf.Pow(Mathf.PerlinNoise(-randomize, height), 0.75f);
 
             if (activateNoise > pipesFrequency)
                 return 0;
 
-            return Mathf.Clamp01(Mathf.PerlinNoise(randomize, height * NOISE_MULTIPLIER) * difficult * settings.ObstacleMultiplier); 
+            return Mathf.Clamp01(Mathf.PerlinNoise(randomize, height * NOISE_MULTIPLIER) * Mathf.Sqrt(difficult) * settings.ObstacleMultiplier); 
         }
     }
 
 
     public enum DifficultTypes
     {
-        Random,
-        HardRandom,
+        SmartRandom,
     }
 }
