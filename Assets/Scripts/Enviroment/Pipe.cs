@@ -8,6 +8,7 @@ namespace Game.Enviroment
     public class Pipe : MonoBehaviour
     {
         [Header("Settings")]
+        [SerializeField] private AnimationCurve offsetCurve;
         [SerializeField] private float maxOffset;
         [Header("Components")]
         [SerializeField] private Transform leftObstacle;
@@ -35,8 +36,8 @@ namespace Game.Enviroment
 
         private void SetObstacles(float difficult, float xRatio)
         {
-            float leftX = Mathf.Lerp(0, maxOffset, difficult * xRatio);
-            float rightX = Mathf.Lerp(0, maxOffset, difficult * (1 - xRatio));
+            float leftX = Mathf.Lerp(0, maxOffset, offsetCurve.Evaluate(difficult * xRatio));
+            float rightX = Mathf.Lerp(0, maxOffset, offsetCurve.Evaluate(difficult * (1 - xRatio)));
 
             leftObstacle.localPosition = new Vector3(leftX, 0, 0);
             rightObstacle.localPosition = new Vector3(-rightX, 0, 0);

@@ -38,6 +38,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  minPipesFrequency: 0.28
-  maxPipesFrequency: 0.542
-  obstacleSizeMultiplier: 1.51
+  minPipesFrequency: 0.3
+  maxPipesFrequency: 0.45
+  obstacleSizeMultiplier: 2

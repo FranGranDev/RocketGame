@@ -10,10 +10,26 @@ namespace Game.Data
         [Header("Prefab")]
         [SerializeField] private GameObject prefab;
         [Header("Settings")]
-        [SerializeField] private float speed;
+        [SerializeField] private Settings settings;
 
 
         public GameObject Prefab => prefab;
-        public float Speed => speed;
+        public Settings Setting => settings;
+
+
+        public class Settings
+        {
+            [SerializeField] private float maxSpeed;
+            [SerializeField] private float turnSpeed;
+            [Space]
+            [SerializeField, Range(0.01f, 1f)] private float acceleration;
+            [SerializeField, Range(0.01f, 1f)] private float turnSmooth;
+
+            public float MaxSpeed => maxSpeed;
+            public float TurnSpeed => turnSpeed;
+
+            public float Acceleration => acceleration;
+            public float TurnSmooth => turnSmooth;
+        }
     }
 }

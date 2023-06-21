@@ -4,11 +4,12 @@ using UnityEngine;
 using Zenject;
 using Game.Enviroment;
 using Game.Player;
-
+using Game.Services;
+using System;
 
 namespace Game.Context
 {
-    public class GameController : MonoBehaviour
+    public class GameController : MonoBehaviour, IGameEvents
     {
         [Header("Components")]
         [SerializeField] private Transform playerHolder;
@@ -25,6 +26,10 @@ namespace Game.Context
 
 
         private IPlayer player;
+
+
+
+        public event Action<GameStates> OnChanged;
 
 
         private void Start()

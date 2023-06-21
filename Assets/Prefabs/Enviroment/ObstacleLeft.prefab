@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ObstacleLeft
       objectReference: {fileID: 0}
+    - target: {fileID: 956765315431441925, guid: 6a91d3060ef94d24f9ad67776a448b90, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -11.7592
+      objectReference: {fileID: 0}
     - target: {fileID: 3282335447489146964, guid: 6a91d3060ef94d24f9ad67776a448b90, type: 3}
       propertyPath: m_RootOrder
       value: 0

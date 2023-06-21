@@ -23,11 +23,6 @@ namespace Game.Installers
                 .FromInstance(difficultSettings)
                 .NonLazy();
 
-            Container.Bind<float>()
-                .WithId("SizeX")
-                .FromInstance(pipeData.SizeX)
-                .NonLazy();
-
             Container.Bind<RocketData>()
                 .FromInstance(rocketSettings)
                 .NonLazy();

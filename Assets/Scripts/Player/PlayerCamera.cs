@@ -22,8 +22,10 @@ namespace Game.Player
             if (player == null)
                 return;
 
-            Vector3 targetPosition = player.Transform.position + offset;
-            transform.position = Vector3.Lerp(transform.position, targetPosition, speed);
+            Vector3 playerPosition = player.Transform.position;
+            playerPosition.x = 0;
+
+            transform.position = Vector3.Lerp(transform.position, playerPosition + offset, speed);
         }
     }
 }

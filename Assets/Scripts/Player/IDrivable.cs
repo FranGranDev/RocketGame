@@ -7,11 +7,12 @@ namespace Game.Player
     public interface IPlayer : IDrivable
     {
         public Transform Transform { get; }
+        public bool IsDriving { get; }
     }
 
     public interface IDrivable
     {
-        void Turn(float deltaX);
+        void Move(Vector2 point);
 
         void EngineOn();
         void EngineOff();
