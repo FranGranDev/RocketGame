@@ -35,7 +35,21 @@ namespace Game.Inputs
                 Move(Input.mousePosition);
             }
         }
-
+        private void TapInput()
+        {
+            if (Input.touchCount > 0 && !touched)
+            {
+                Tap();
+            }
+            if (Input.touchCount == 0 && touched)
+            {
+                Release();
+            }
+            if (touched)
+            {
+                Move(Input.GetTouch(0).position);
+            }
+        }
 
         private void Tap()
         {
@@ -74,6 +88,8 @@ namespace Game.Inputs
         {
 #if UNITY_EDITOR
             MouseInput();
+#else
+            TapInput();
 #endif
         }
         private void Start()

@@ -12,8 +12,6 @@ namespace Game.Enviroment
 
     public abstract class DifficultBase : IDifficult
     {
-        public const int NOISE_MULTIPLIER = 1337;
-
         public DifficultBase(DifficultSettings settings)
         {
             this.settings = settings;
@@ -22,33 +20,23 @@ namespace Game.Enviroment
         protected DifficultSettings settings;
 
 
-
         public abstract float Get(float height);
     }
 
-    public class RandomDifficult : DifficultBase
-    {
-        public RandomDifficult(DifficultSettings settings, int randomize) : base(settings)
-        {
-            this.randomize = randomize;
-        }
-
-        private int randomize;
-
-        public override float Get(float height)
-        {
-            float result = Mathf.PerlinNoise(randomize, height * NOISE_MULTIPLIER) * settings.GetDifficult(height);
-            return result < 0.5f ? 0 : result;
-        }
-    }
     public class SmartRandomDifficult : DifficultBase
     {
-        public SmartRandomDifficult(DifficultSettings settings, int randomize) : base(settings)
+        public const float DIFFICULT_NOISE_SCALE = 1.33653f;
+        public const float ACTIVATE_NOISE_SCALE = 132.33653f;
+
+        public SmartRandomDifficult(DifficultSettings settings, float seed) : base(settings)
         {
-            this.randomize = randomize;
+            difficultNoise = new Noise(seed, DIFFICULT_NOISE_SCALE);
+            activateNoise = new Noise(seed, ACTIVATE_NOISE_SCALE);
         }
 
-        private int randomize;
+        private Noise difficultNoise;
+        private Noise activateNoise;
+
 
         public override float Get(float height)
         {
@@ -58,12 +46,12 @@ namespace Game.Enviroment
 
             float pipesFrequency = Mathf.Lerp(settings.MinPipesFrequency, settings.MaxPipesFrequency, difficult);
 
-            float activateNoise = Mathf.Pow(Mathf.PerlinNoise(-randomize, height), 0.75f);
+            float activation = activateNoise.Evaluate(height);
 
-            if (activateNoise > pipesFrequency)
+            if (activation > pipesFrequency)
                 return 0;
 
-            return Mathf.Clamp01(Mathf.PerlinNoise(randomize, height * NOISE_MULTIPLIER) * Mathf.Sqrt(difficult) * settings.ObstacleMultiplier); 
+            return Mathf.Clamp01(difficultNoise.Evaluate(height) * Mathf.Sqrt(difficult) * settings.ObstacleMultiplier); 
         }
     }
 

@@ -11,9 +11,12 @@ namespace Game.Enviroment
 {
     public class InfinityPipeCreator : MonoBehaviour
     {
+        private const float X_DIFF_NOISE_SCALE = 11.53423f;
+
+
         [Foldout("Difficult Settings"), SerializeField] private DifficultTypes difficultType;
         [Foldout("Difficult Settings"), SerializeField] private AnimationCurve xDiffCurve;
-        [Foldout("Difficult Settings"), SerializeField] private int seed;
+        [Foldout("Difficult Settings"), SerializeField, Range(0f, 1f)] private float seed;
         [Foldout("Difficult Settings"), SerializeField] private bool autoSeed;
 
         [Foldout("Create Settings"), SerializeField] private float createOffset;
@@ -30,6 +33,7 @@ namespace Game.Enviroment
 
 
         private PipesPool pipesPool;
+        private Noise xRatioNoise;
         private IDifficult difficult;
 
         private Transform target;
@@ -52,7 +56,10 @@ namespace Game.Enviroment
         {
             return i * createOffset;
         }
-
+        public float XRatioNormalized(float x)
+        {
+            return Mathf.Clamp01(xDiffCurve.Evaluate(x));
+        }
 
         public void Initialize()
         {
@@ -63,18 +70,17 @@ namespace Game.Enviroment
 
             if(autoSeed)
             {
-                seed = Random.Range(0, int.MaxValue);
+                seed = Noise.NewSeed();
             }
 
             switch(difficultType)
             {
-                case DifficultTypes.SmartRandom:
+                default:
                     difficult = new SmartRandomDifficult(difficultSettings, seed);
                     break;
-                default:
-                    difficult = new RandomDifficult(difficultSettings, seed);
-                    break;
             }
+
+            xRatioNoise = new Noise(seed, X_DIFF_NOISE_SCALE);
         }
         public void SetTarget(Transform target)
         {
@@ -84,7 +90,7 @@ namespace Game.Enviroment
         {
             if (autoSeed)
             {
-                seed = Random.Range(0, int.MaxValue);
+                seed = Noise.NewSeed();
             }
 
             pipesPool.Reset();
@@ -103,7 +109,6 @@ namespace Game.Enviroment
             prevIndex = currantIndex;
 
             CreatePipes();
-            FixImposiblePipes();
             HidePipes();
         }
         private void CreatePipes()
@@ -117,27 +122,6 @@ namespace Game.Enviroment
                 }
 
                 CreatePipe(currantIndex + i);
-            }
-        }
-        private void FixImposiblePipes()
-        {
-            for (int i = -createOffsetIndex; i < createOffsetIndex - 1; i++)
-            {
-                Pipe lower = pipes[currantIndex + i];
-                Pipe upper = pipes[currantIndex + i + 1];
-
-
-                if(lower.Difficult + upper.Difficult > 1f)
-                {
-                    if(lower.Difficult > upper.Difficult)
-                    {
-                        upper.Difficult = 0;
-                    }
-                    else
-                    {
-                        lower.Difficult = 0;
-                    }
-                }
             }
         }
         private void HidePipes()
@@ -170,11 +154,17 @@ namespace Game.Enviroment
         private void ShowPipe(int index)
         {
             float normalizedHeight = NormalizedHeight(index);
-            float xRatio = xDiffCurve.Evaluate(Mathf.PerlinNoise(seed / 2, normalizedHeight));
-            float difficultResult = difficult.Get(normalizedHeight);
 
+            if (index % 3 == 0)
+            {
+                float xRatio = XRatioNormalized(xRatioNoise.Evaluate(index));
+                float difficultResult = difficult.Get(normalizedHeight);
 
-            pipes[index].Show(normalizedHeight, difficultResult, xRatio);            
+                pipes[index].Show(normalizedHeight, difficultResult, xRatio);
+                return;
+            }
+
+            pipes[index].Show(normalizedHeight, 0, 0);
         }
         
 
