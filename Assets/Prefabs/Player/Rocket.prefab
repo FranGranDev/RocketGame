@@ -9693,6 +9693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d03c82439ed50c14aba066f5fe9bcd95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sensivity: 2
 --- !u!114 &6247620209032940606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9706,12 +9707,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loseControllTime: 1
-  gravity: -20
-  maxSpeed: 35
-  acceleration: 0.05
+  gravity: -25
+  maxSpeed: 25
+  acceleration: 0.04
   directionRatio: 0.5
   moveSmooth: 0.2
-  moveSpeed: 12
+  moveSpeed: 15
   xMoveSpeedRatio: 0.2
   speedXfallAngularRatio: 0.2
   directionXfallAngular: 2

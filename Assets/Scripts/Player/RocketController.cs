@@ -10,6 +10,8 @@ namespace Game.Player
     [RequireComponent(typeof(IDrivable))]
     public class RocketController : MonoBehaviour
     {
+        [SerializeField, Range(0.5f, 3f)] private float sensivity;
+
         [Inject]
         private IScreenInput screenInput;
 
@@ -43,7 +45,7 @@ namespace Game.Player
         }
         private void OnDrag(Vector2 point)
         {
-            drivable.Move(point);
+            drivable.Move(point * sensivity);
         }
     }
 }

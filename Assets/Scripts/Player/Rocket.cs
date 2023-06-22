@@ -72,6 +72,10 @@ namespace Game.Player
             Vector3 torque = new Vector3(0, 0, -xPower);
             rigidbody.AddTorque(torque, ForceMode.VelocityChange);
 
+            Vector3 velocity = rigidbody.velocity;
+            velocity.x *= 0.5f;
+            rigidbody.velocity = velocity;
+
             isDriving = false;
         }
         public void Move(Vector2 direction)
