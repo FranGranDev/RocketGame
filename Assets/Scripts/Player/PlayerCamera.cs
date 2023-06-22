@@ -12,9 +12,20 @@ namespace Game.Player
 
         private IPlayer player;
 
+        public void LookAt(Vector3 point)
+        {
+            point.z = 0;
+
+            transform.position = point + offset;
+        }
+
         public void Bind(IPlayer player)
         {
             this.player = player;
+        }
+        public void Unbind()
+        {
+            player = null;
         }
 
         private void FixedUpdate()

@@ -80,6 +80,15 @@ namespace Game.Enviroment
         {
             this.target = target;
         }
+        public void Restart()
+        {
+            if (autoSeed)
+            {
+                seed = Random.Range(0, int.MaxValue);
+            }
+
+            pipesPool.Reset();
+        }
 
 
         private void UpdatePipes()
@@ -173,6 +182,10 @@ namespace Game.Enviroment
                 {
                     return pipes.First(); // If move infinity fast, that happen :)
                 }
+            }
+            public void Reset()
+            {
+                pipes.ForEach(x => x.Hide());
             }
         }
     }

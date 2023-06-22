@@ -23,27 +23,27 @@ namespace UI
         [SerializeField] private ButtonUI startButton;
         [SerializeField] private ButtonUI restartButton;
         [Header("States")]
-        [SerializeField] private GameStates gameState;
+        [SerializeField] private States state;
 
-        private Dictionary<GameStates, List<UIPanel>> menuPanels;
+        private Dictionary<States, List<UIPanel>> menuPanels;
 
 
         [Inject]
         private IGameEvents gameEvents;
 
-        public GameStates GameState
+        private States State
         {
             get
             {
-                return gameState;
+                return state;
             }
             set
             {
-                if (gameState == value)
+                if (State == value)
                     return;
-                OnStateEnd(gameState);
-                gameState = value;
-                OnStateStart(gameState);
+                OnStateEnd(state);
+                state = value;
+                OnStateStart(state);
             }
         }
 
@@ -60,10 +60,11 @@ namespace UI
 
         public void Initialize()
         {
-            menuPanels = new Dictionary<GameStates, List<UIPanel>>()
+            menuPanels = new Dictionary<States, List<UIPanel>>()
             {
-                {GameStates.Idle, startMenu.GetComponentsInChildren<UIPanel>(true).ToList() },
-                {GameStates.Game, gameMenu.GetComponentsInChildren<UIPanel>(true).ToList() },
+                {States.None, new List<UIPanel>() },
+                {States.Start, startMenu.GetComponentsInChildren<UIPanel>(true).ToList() },
+                {States.Game, gameMenu.GetComponentsInChildren<UIPanel>(true).ToList() },
             };
             menuPanels.Values.SelectMany(x => x).ToList().ForEach(x => x.Initilize());
 
@@ -71,35 +72,61 @@ namespace UI
             restartButton.OnClick += RestartClick;
 
             gameEvents.OnChanged += OnGameStateChanged;
+
+            TurnUI(true);
+            State = States.None;
         }
 
 
         private void OnGameStateChanged(GameStates state)
         {
-            GameState = state;
+            switch(state)
+            {
+                case GameStates.Idle:
+                    State = States.Start;
+                    break;
+                case GameStates.Game:
+                    State = States.Game;
+                    break;
+                default:
+                    State = States.None;
+                    break;
+            }
         }
-        private void OnStateStart(GameStates state)
+        private void OnStateStart(States state)
         {
             menuPanels[state].ForEach(x => x.IsShown = true);
         }
-        private void OnStateEnd(GameStates state)
+        private void OnStateEnd(States state)
         {
             menuPanels[state].ForEach(x => x.IsShown = false);
         }
 
+        private void TurnUI(bool on)
+        {
+            startMenu.SetActive(on);
+            gameMenu.SetActive(on);
+        }
 
 
         private void RestartClick()
         {
-            if (gameState != GameStates.Game)
+            if (state != States.Game)
                 return;
             OnRestartClick?.Invoke();   
         }
         private void StartClick()
         {
-            if (gameState != GameStates.Idle)
+            if (state != States.Start)
                 return;
             OnStartClick?.Invoke();
+        }
+
+        private enum States
+        {
+            None,
+            Start,
+            Game,
         }
     }
 }

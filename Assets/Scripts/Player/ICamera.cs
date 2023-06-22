@@ -6,6 +6,9 @@ namespace Game.Player
 {
     public interface ICamera<T>
     {
+        void LookAt(Vector3 point);
+
         void Bind(T player);
+        void Unbind();
     }
 }

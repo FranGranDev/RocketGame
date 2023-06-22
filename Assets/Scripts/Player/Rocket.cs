@@ -77,6 +77,10 @@ namespace Game.Player
             moveDirection = direction.x;
         }
 
+        public void Delete()
+        {
+            Destroy(gameObject);
+        }
 
         private async void LoseControll()
         {
