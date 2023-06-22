@@ -1191,7 +1191,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  seed: 0
+  seed: 1950078269
   autoSeed: 1
   createOffset: 3.6
   createThreshold: 60

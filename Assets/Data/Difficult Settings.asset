@@ -40,4 +40,4 @@ MonoBehaviour:
     m_RotationOrder: 4
   minPipesFrequency: 0.3
   maxPipesFrequency: 0.5
-  obstacleSizeMultiplier: 1.5
+  obstacleSizeMultiplier: 1.86
