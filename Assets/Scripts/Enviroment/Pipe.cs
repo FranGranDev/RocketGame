@@ -14,17 +14,33 @@ namespace Game.Enviroment
         [SerializeField] private Transform leftObstacle;
         [SerializeField] private Transform rightObstacle;
 
+        private float xRatio;
+        private float difficult;
+
+
         public bool Hidden
         {
             get => !gameObject.activeSelf;
         }
+        public float Difficult
+        {
+            get => difficult;
+            set
+            {
+                difficult = value;
+                SetObstacles();
+            }
+        }
 
-
+        
         public void Show(float height, float difficult, float xRatio)
         {
+            this.xRatio = xRatio;
+            this.difficult = difficult;
+
             transform.position = Vector3.up * height;
 
-            SetObstacles(difficult, xRatio);
+            SetObstacles();
 
             gameObject.SetActive(true);
         }
@@ -34,7 +50,7 @@ namespace Game.Enviroment
         }
 
 
-        private void SetObstacles(float difficult, float xRatio)
+        private void SetObstacles()
         {
             float leftX = Mathf.Lerp(0, maxOffset, offsetCurve.Evaluate(difficult * xRatio));
             float rightX = Mathf.Lerp(0, maxOffset, offsetCurve.Evaluate(difficult * (1 - xRatio)));

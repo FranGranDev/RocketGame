@@ -27,14 +27,13 @@ namespace UI
         {
             if (IsPlaying || playAlways)
             {
-                transform.localScale = Vector3.one * (1 + Mathf.Sin(time * period) * punchScale);
+                transform.localScale = Vector3.one * (1 + Mathf.Cos(time * period) * punchScale);
                 time += Time.fixedDeltaTime;
             }
             else
             {
                 time = 0;
             }
-
         }
     }
 }

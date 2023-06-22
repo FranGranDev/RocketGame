@@ -167,12 +167,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 3.1503131
-      outSlope: 3.1503131
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.037759673
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
@@ -185,7 +185,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  maxOffset: 9
+  maxOffset: 8
   leftObstacle: {fileID: 6387141246659156887}
   rightObstacle: {fileID: 8349538535923382528}
 --- !u!1 &4729426993290753489

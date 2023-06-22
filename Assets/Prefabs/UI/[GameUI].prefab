@@ -609,7 +609,7 @@ MonoBehaviour:
   gameMenu: {fileID: 94320165397894758}
   startButton: {fileID: 3552921988700262082}
   restartButton: {fileID: 5291981119205833194}
-  gameState: 0
+  state: 0
 --- !u!1 &7659029096227249093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1378,6 +1378,14 @@ PrefabInstance:
       propertyPath: Name
       value: UI | Start
       objectReference: {fileID: 0}
+    - target: {fileID: 6515452367000604818, guid: b06697f64a7aced4e904c99622d181d2, type: 3}
+      propertyPath: uiAnimations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6515452367000604818, guid: b06697f64a7aced4e904c99622d181d2, type: 3}
+      propertyPath: uiAnimations.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b06697f64a7aced4e904c99622d181d2, type: 3}
 --- !u!224 &3434958215415892871 stripped
@@ -1390,12 +1398,44 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 246685191486326416, guid: b06697f64a7aced4e904c99622d181d2, type: 3}
   m_PrefabInstance: {fileID: 3612702079816239186}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 8532375723644971474}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 27c20173e2c036949878c45450e60acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8532375723644971474 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4921295183523701120, guid: b06697f64a7aced4e904c99622d181d2, type: 3}
+  m_PrefabInstance: {fileID: 3612702079816239186}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4933217701980152613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532375723644971474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1ae7f1756ed54b48b489758bde3f111, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playAlways: 0
+  period: 3
+  punchScale: 0.1
+--- !u!225 &8678955906384758538
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8532375723644971474}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &7525471997416088538
 PrefabInstance:
   m_ObjectHideFlags: 0

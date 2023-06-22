@@ -101,6 +101,12 @@ namespace Game.Enviroment
             }
             prevIndex = currantIndex;
 
+            CreatePipes();
+            FixImposiblePipes();
+            HidePipes();
+        }
+        private void CreatePipes()
+        {
             for (int i = -createOffsetIndex; i < createOffsetIndex; i++)
             {
                 if (pipes.ContainsKey(currantIndex + i))
@@ -111,8 +117,31 @@ namespace Game.Enviroment
 
                 CreatePipe(currantIndex + i);
             }
+        }
+        private void FixImposiblePipes()
+        {
+            for (int i = -createOffsetIndex; i < createOffsetIndex - 1; i++)
+            {
+                Pipe lower = pipes[currantIndex + i];
+                Pipe upper = pipes[currantIndex + i + 1];
 
-            for(int i = -hideOffsetIndex; i < hideOffsetIndex; i++)
+
+                if(lower.Difficult + upper.Difficult > 1f)
+                {
+                    if(lower.Difficult > upper.Difficult)
+                    {
+                        upper.Difficult = 0;
+                    }
+                    else
+                    {
+                        lower.Difficult = 0;
+                    }
+                }
+            }
+        }
+        private void HidePipes()
+        {
+            for (int i = -hideOffsetIndex; i < hideOffsetIndex; i++)
             {
                 if (i > -createOffsetIndex && i < createOffsetIndex)
                     continue;
@@ -123,6 +152,7 @@ namespace Game.Enviroment
                 HidePipe(currantIndex + i);
             }
         }
+
         private void CreatePipe(int index)
         {
             pipes.Add(index, pipesPool.Get());
@@ -138,8 +168,9 @@ namespace Game.Enviroment
         private void ShowPipe(int index)
         {
             float normalizedHeight = NormalizedHeight(index);
-            float xRatio = xDiffCurve.Evaluate(Mathf.PerlinNoise(-seed, NormalizedHeight(index) * 1337));
+            float xRatio = xDiffCurve.Evaluate(Mathf.PerlinNoise(seed / 2, normalizedHeight));
             float difficultResult = difficult.Get(normalizedHeight);
+
 
             pipes[index].Show(normalizedHeight, difficultResult, xRatio);            
         }

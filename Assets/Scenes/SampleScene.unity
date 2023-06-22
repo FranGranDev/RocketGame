@@ -1217,6 +1217,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1847735536}
     m_Modifications:
+    - target: {fileID: 7514656264334317760, guid: 9f9586d958d0979469287fb4ab90528c, type: 3}
+      propertyPath: show.time
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 7659029095579020852, guid: 9f9586d958d0979469287fb4ab90528c, type: 3}
       propertyPath: m_Name
       value: '[GameUI]'
