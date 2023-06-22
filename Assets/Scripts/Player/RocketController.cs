@@ -4,6 +4,7 @@ using UnityEngine;
 using Zenject;
 using Game.Inputs;
 
+
 namespace Game.Player
 {
     [RequireComponent(typeof(IDrivable))]
@@ -17,10 +18,18 @@ namespace Game.Player
         private void Awake()
         {
             drivable = GetComponent<IDrivable>();
-
+        }
+        private void OnEnable()
+        {
             screenInput.OnDrag += OnDrag;
             screenInput.OnRelease += OnRelease;
             screenInput.OnTap += OnTap;
+        }
+        private void OnDisable()
+        {
+            screenInput.OnDrag -= OnDrag;
+            screenInput.OnRelease -= OnRelease;
+            screenInput.OnTap -= OnTap;
         }
 
 
@@ -35,14 +44,6 @@ namespace Game.Player
         private void OnDrag(Vector2 point)
         {
             drivable.Move(point);
-        }
-
-
-        private void OnDestroy()
-        {
-            screenInput.OnDrag -= OnDrag;
-            screenInput.OnRelease -= OnRelease;
-            screenInput.OnTap -= OnTap;
         }
     }
 }

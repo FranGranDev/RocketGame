@@ -22,7 +22,7 @@ namespace Game.Player
             rocket.transform.position = position;
             rocket.transform.parent = parent;
 
-            rocket.Initialize(rocketData.Setting);
+            rocket.Initialize();
 
             return rocket;
         }

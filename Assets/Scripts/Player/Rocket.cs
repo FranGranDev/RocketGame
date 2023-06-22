@@ -49,13 +49,15 @@ namespace Game.Player
         }
 
 
-        public void Initialize(RocketData.Settings settings)
+        public void Initialize()
         {
             effect = GetComponentInChildren<IEffect>();
             if(effect == null)
             {
                 effect = new NullEffect();
             }
+
+            rigidbody.velocity = Vector3.up * maxSpeed;
         }
 
         public void EngineOn()
@@ -77,7 +79,7 @@ namespace Game.Player
             moveDirection = direction.x;
         }
 
-        public void Delete()
+        public void Demolish()
         {
             Destroy(gameObject);
         }
@@ -112,13 +114,11 @@ namespace Game.Player
         }
         private void Animate()
         {
-            Vector3 direction = new Vector3(rigidbody.velocity.x * turnPower, Mathf.Max(Mathf.Abs(rigidbody.velocity.y), 1), 0).normalized;
+            Vector3 direction = new Vector3(rigidbody.velocity.x * turnPower, Mathf.Max(Mathf.Abs(rigidbody.velocity.y) * 0.75f, 1), 0).normalized;
             Quaternion rotation = Quaternion.LookRotation(transform.forward, direction);
             rotation.eulerAngles = new Vector3(0, 0, rotation.eulerAngles.z);
 
             transform.rotation = Quaternion.Lerp(transform.rotation, rotation, turnSmooth);
-            //transform.up = Vector3.Lerp(transform.up, direction, turnSmooth);
-
             rigidbody.angularVelocity = Vector3.Lerp(rigidbody.angularVelocity, Vector3.zero, 0.1f);
         }
         private void Effects()

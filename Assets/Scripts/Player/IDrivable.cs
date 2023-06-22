@@ -6,7 +6,7 @@ namespace Game.Player
 {
     public interface IPlayer : IDrivable
     {
-        public void Delete();
+        public void Demolish();
 
         public Transform Transform { get; }
         public bool IsDriving { get; }

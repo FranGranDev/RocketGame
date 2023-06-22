@@ -12,6 +12,9 @@ namespace Game.Player
 
         private IPlayer player;
 
+        private float topHeight;
+
+
         public void LookAt(Vector3 point)
         {
             point.z = 0;
@@ -22,6 +25,7 @@ namespace Game.Player
         public void Bind(IPlayer player)
         {
             this.player = player;
+            topHeight = float.MinValue;
         }
         public void Unbind()
         {
@@ -32,11 +36,11 @@ namespace Game.Player
         {
             if (player == null)
                 return;
+            topHeight = Mathf.Max(topHeight, player.Transform.position.y);
 
-            Vector3 playerPosition = player.Transform.position;
-            playerPosition.x = 0;
+            Vector3 position = Vector3.up * topHeight;
 
-            transform.position = Vector3.Lerp(transform.position, playerPosition + offset, speed);
+            transform.position = Vector3.Lerp(transform.position, position + offset, speed);
         }
     }
 }

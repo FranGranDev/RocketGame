@@ -18,6 +18,9 @@ namespace Game.Context
 
 
         [Inject]
+        private LooseTrigger looseTrigger;
+
+        [Inject]
         private InfinityPipeCreator pipeCreator;
 
         [Inject]
@@ -57,10 +60,14 @@ namespace Game.Context
             gameUI.OnStartClick += StartGame;
             gameUI.OnRestartClick += RestartGame;
 
+            looseTrigger.OnPlayerEnter += RestartGame;
+
+
             await Task.Delay(1000);
 
             OnChanged?.Invoke(GameStates.Idle);
         }
+
 
         private void RestartGame()
         {
@@ -69,7 +76,7 @@ namespace Game.Context
             playerCamera.Unbind();
             playerCamera.LookAt(playerHolder.position);
 
-            player.Delete();
+            player.Demolish();
 
             GameState = GameStates.Idle;
         }

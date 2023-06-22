@@ -41,14 +41,14 @@ namespace Game.Enviroment
         private int createOffsetIndex;
         private int hideOffsetIndex;
 
-        private float CurrantHeight
+        public float CurrantHeight
         {
             get
             {
                 return target.position.y;
             }
         }
-        private float NormalizedHeight(int i)
+        public float NormalizedHeight(int i)
         {
             return i * createOffset;
         }
@@ -88,6 +88,7 @@ namespace Game.Enviroment
             }
 
             pipesPool.Reset();
+            pipes.Clear();
         }
 
 
@@ -152,6 +153,7 @@ namespace Game.Enviroment
                 HidePipe(currantIndex + i);
             }
         }
+
 
         private void CreatePipe(int index)
         {
