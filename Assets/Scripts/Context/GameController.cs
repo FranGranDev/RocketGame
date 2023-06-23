@@ -52,6 +52,10 @@ namespace Game.Context
         public event Action<GameStates> OnChanged;
 
 
+        private void Setup()
+        {
+            Application.targetFrameRate = 60;
+        }
         private async void Initialize()
         {
             pipeCreator.Initialize();
@@ -94,6 +98,7 @@ namespace Game.Context
 
         private void Awake()
         {
+            Setup();
             Initialize();
         }
     }

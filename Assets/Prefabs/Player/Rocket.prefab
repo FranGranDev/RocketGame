@@ -9706,17 +9706,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97e6fa43623b755499b7ecaf281fe539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loseControllTime: 1
+  loseControllTime: 0.75
   gravity: -25
   maxSpeed: 25
-  acceleration: 0.04
+  acceleration: 0.06
   directionRatio: 0.5
   moveSmooth: 0.2
   moveSpeed: 15
   xMoveSpeedRatio: 0.2
+  xDrag: 0.01
   speedXfallAngularRatio: 0.2
-  directionXfallAngular: 2
-  turnSmooth: 0.1
+  directionXfallAngular: 2.5
+  turnSmooth: 0.075
   turnPower: 2
   rigidbody: {fileID: 1775024999722519740}
 --- !u!54 &1775024999722519740

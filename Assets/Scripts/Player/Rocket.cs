@@ -21,6 +21,7 @@ namespace Game.Player
         [SerializeField, Range(0.01f, 1f)] private float moveSmooth;
         [SerializeField] private float moveSpeed;
         [SerializeField, Range(0f, 1f)] private float xMoveSpeedRatio;
+        [SerializeField, Range(0f, 1f)] private float xDrag;
         [Header("Animation")]
         [SerializeField, Range(0f, 1f)] private float speedXfallAngularRatio;
         [SerializeField, Range(0f, 10f)] private float directionXfallAngular;
@@ -72,9 +73,6 @@ namespace Game.Player
             Vector3 torque = new Vector3(0, 0, -xPower);
             rigidbody.AddTorque(torque, ForceMode.VelocityChange);
 
-            Vector3 velocity = rigidbody.velocity;
-            velocity.x *= 0.5f;
-            rigidbody.velocity = velocity;
 
             isDriving = false;
         }
@@ -133,6 +131,13 @@ namespace Game.Player
         {
             rigidbody.AddForce(Vector3.up * gravity, ForceMode.Acceleration);
         }
+        private void XDrag()
+        {
+            Vector3 velocity = rigidbody.velocity;
+            velocity.x *= (1 - xDrag);
+
+            rigidbody.velocity = velocity;
+        }
 
 
         private void FixedUpdate()
@@ -145,6 +150,7 @@ namespace Game.Player
             else
             {
                 Gravity();
+                XDrag();
             }
 
             Effects();
